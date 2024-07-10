@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """ Basic Authentication class"""
 from .auth import Auth
+from typing import TypeVar, List
+from models.user import User
+
 
 
 class BasicAuth(Auth):
@@ -45,3 +48,17 @@ class BasicAuth(Auth):
         user_credentials = decoded_base64_authorization_header.split(':', 1)
         email, password = user_credentials
         return email, password
+
+    def user_object_from_credentials(self, user_email: str,
+                                     user_pwd: str) -> TypeVar('User'):
+        """Fetches the user object if they are authenticated"""
+        if user_email is None or user_pwd is None:
+            return None
+        if type(user_email) is not str or type(user_pwd) is not str:
+            return None
+        user = User.search({"email": user_email})
+        if len(user) != 1:
+            return None
+        if not user[0].is_valid_password(pwd=user_pwd):
+            return None
+        return user[0]
