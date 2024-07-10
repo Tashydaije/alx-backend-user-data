@@ -3,6 +3,7 @@
 from .auth import Auth
 from typing import TypeVar, List
 from models.user import User
+from flask import request
 
 
 class BasicAuth(Auth):
@@ -61,3 +62,11 @@ class BasicAuth(Auth):
         if not user[0].is_valid_password(pwd=user_pwd):
             return None
         return user[0]
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """Retrieves user instance for a request"""
+        auth_header = self.authorization_header(request)
+        user_token = self.extract_base64_authorization_header(auth_header)
+        decoded_user = self.decode_base64_authorization_header(user_token)
+        user_email, user_password = self.extract_user_credentials(decoded_user)
+        return self.user_object_from_credentials(user_email, user_password)
