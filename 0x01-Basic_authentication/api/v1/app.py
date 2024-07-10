@@ -18,6 +18,7 @@ if auth_type is not None:
     from .auth.auth import Auth
     auth = Auth()
 
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
@@ -37,7 +38,6 @@ def forbidden(error):
     """ request forbidden
     """
     return jsonify({"error": "Forbidden"}), 403
-
 
 
 @app.before_request
