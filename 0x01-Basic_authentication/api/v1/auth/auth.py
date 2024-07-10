@@ -3,7 +3,7 @@
 
 from flask import request
 from typing import TypeVar, List
-import re
+import fnmatch
 
 
 class Auth:
@@ -18,8 +18,12 @@ class Auth:
         if path[-1] != '/':
             path += '/'
         for _path in excluded_paths:
-            if re.match(_path, path) is not None:
-                return False
+            if _pathk[-1] == '*':
+                if fnmatch.fnmatch(path, _path):
+                    return False
+            else:
+                if fnmatch.fnmatch(path, _path + '*'):
+                    return False
 
         return True
 
