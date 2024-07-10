@@ -5,7 +5,6 @@ from typing import TypeVar, List
 from models.user import User
 
 
-
 class BasicAuth(Auth):
     """ Basic Auth"""
     def extract_base64_authorization_header(self,
