@@ -2,6 +2,7 @@
 
 """Authentication module"""
 import bcrypt
+import uuid
 
 
 def _hash_password(password: str) -> bytes:
@@ -11,4 +12,4 @@ def _hash_password(password: str) -> bytes:
 
 def _generate_uuid() -> str:
     """Generate a unique ID"""
-    return str(uuid4())
+    return str(uuid.uuid4())
