@@ -34,6 +34,8 @@ class DB:
     def add_user(self, email: str, hashed_password: str) -> User:
         """Add a user to the database and return the User object
         """
+        if not email or not hashed_password:
+            return
         new_user = User(email=email, hashed_password=hashed_password)
         session = self._session
         session.add(new_user)
